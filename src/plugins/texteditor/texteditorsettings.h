@@ -1,0 +1,98 @@
+/**************************************************************************
+**
+** This file is part of Qt Creator
+**
+** Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+**
+** Contact: Nokia Corporation (qt-info@nokia.com)
+**
+** Commercial Usage
+**
+** Licensees holding valid Qt Commercial licenses may use this file in
+** accordance with the Qt Commercial License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Nokia.
+**
+** GNU Lesser General Public License Usage
+**
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 2.1 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU Lesser General Public License version 2.1 requirements
+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+** If you are unsure which license is appropriate for your use, please
+** contact the sales department at http://qt.nokia.com/contact.
+**
+**************************************************************************/
+
+#ifndef TEXTEDITORSETTINGS_H
+#define TEXTEDITORSETTINGS_H
+
+#include "texteditor_global.h"
+
+#include <QtCore/QObject>
+
+namespace TextEditor {
+
+class BaseTextEditor;
+class BehaviorSettingsPage;
+class DisplaySettingsPage;
+class FontSettingsPage;
+class FontSettings;
+struct TabSettings;
+struct StorageSettings;
+struct BehaviorSettings;
+struct DisplaySettings;
+struct CompletionSettings;
+
+namespace Internal {
+class TextEditorSettingsPrivate;
+}
+
+/**
+ * This class provides a central place for basic text editor settings. These
+ * settings include font settings, tab settings, storage settings, behavior
+ * settings, display settings and completion settings.
+ */
+class TEXTEDITOR_EXPORT TextEditorSettings : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit TextEditorSettings(QObject *parent);
+    ~TextEditorSettings();
+
+    static TextEditorSettings *instance();
+
+    void initializeEditor(BaseTextEditor *editor);
+
+    const FontSettings &fontSettings() const;
+    const TabSettings &tabSettings() const;
+    const StorageSettings &storageSettings() const;
+    const BehaviorSettings &behaviorSettings() const;
+    const DisplaySettings &displaySettings() const;
+    const CompletionSettings &completionSettings() const;
+
+    void setCompletionSettings(const TextEditor::CompletionSettings &);
+
+signals:
+    void fontSettingsChanged(const TextEditor::FontSettings &);
+    void tabSettingsChanged(const TextEditor::TabSettings &);
+    void storageSettingsChanged(const TextEditor::StorageSettings &);
+    void behaviorSettingsChanged(const TextEditor::BehaviorSettings &);
+    void displaySettingsChanged(const TextEditor::DisplaySettings &);
+    void completionSettingsChanged(const TextEditor::CompletionSettings &);
+
+private:
+    Internal::TextEditorSettingsPrivate *m_d;
+    Q_PRIVATE_SLOT(m_d, void fontZoomRequested(int pointSize));
+    Q_PRIVATE_SLOT(m_d, void zoomResetRequested());
+
+    static TextEditorSettings *m_instance;
+};
+
+} // namespace TextEditor
+
+#endif // TEXTEDITORSETTINGS_H

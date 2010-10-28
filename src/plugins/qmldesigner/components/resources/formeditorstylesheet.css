@@ -1,0 +1,21 @@
+
+QLabel {
+    border: none;
+    border-image: none;
+    padding: 0;
+    background: none;
+    color: #E1E1E1;
+}
+
+QStackedWidget {
+     border: 0px;
+     background-color: #606060;
+}
+
+QGraphicsView {
+     border: 0px;
+     background-color: #606060;
+}
+
+
+
